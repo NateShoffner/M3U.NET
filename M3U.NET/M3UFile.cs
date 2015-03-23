@@ -153,5 +153,15 @@ namespace M3U.NET
         }
 
         #endregion
+
+        public M3UEntry Find(Predicate<M3UEntry> match)
+        {
+            return _entries.Find(match);
+        }
+
+        public List<M3UEntry> FindAll(Predicate<M3UEntry> match)
+        {
+            return _entries.FindAll(match);
+        }
     }
 }
