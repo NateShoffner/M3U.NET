@@ -1,8 +1,9 @@
-﻿#region
+#region
 
 using System;
 using System.Windows.Forms;
 using M3U.NET;
+using System.IO;
 
 #endregion
 
@@ -104,6 +105,36 @@ namespace PlaylistEditor.Forms
                     }
                 }
             }
+        }
+
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            System.Array pathList = ((System.Array)e.Data.GetData(DataFormats.FileDrop));
+            int fileCount = pathList.GetLength(0);
+            if (fileCount > 1)
+            {
+                MessageBox.Show("Dragdrop too many files", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            string FilePath = pathList.GetValue(0).ToString();
+            if (!File.Exists(FilePath))//Path is a directory
+                return;
+            _m3uFile = null;
+            try
+            {
+                _m3uFile = new M3UFile();
+                _m3uFile.Load(FilePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            PopulateEntries();
+        }
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetData(DataFormats.FileDrop) != null)
+                e.Effect = DragDropEffects.Copy;
         }
     }
 }
