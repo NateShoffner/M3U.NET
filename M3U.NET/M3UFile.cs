@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Collections;
@@ -137,7 +137,7 @@ namespace M3U.NET
                 {
                     continue;
                 }
-                string filePath = Path.Combine(floder, entry.Title + ".m3u8");
+                string filePath = Path.Combine(floder, fileName + ".m3u8");
                 if(File.Exists(filePath))
                 {
                     continue;
