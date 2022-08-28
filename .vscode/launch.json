@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "clr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/PlaylistEditor/bin/Debug/PlaylistEditor.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole"
+        },
+        {
+            "name": "Attach",
+            "type": "clr",
+            "request": "attach",
+            "processName": "PlaylistEditor.exe"
+        }
+    ]
+}
