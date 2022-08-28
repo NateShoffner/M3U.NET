@@ -20,7 +20,7 @@ namespace PlaylistEditor.Forms
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            using (var ofd = new OpenFileDialog {Filter = "M3U File (*.m3u)|*.m3u", Title = "Open Playlist"})
+            using (var ofd = new OpenFileDialog {Filter = "(*.m3u,*.m3u8)|*.m3u;*.m3u8", Title = "Open Playlist"})
             {
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
@@ -97,7 +97,7 @@ namespace PlaylistEditor.Forms
         {
             if (_m3uFile != null)
             {
-                using (var sfd = new SaveFileDialog() {Filter = "M3U File (*.m3u)|*.m3u", Title = "Save Playlist"})
+                using (var sfd = new SaveFileDialog() {Filter = "M3U File (*.m3u)|*.m3u|M3U8 File (*.m3u8)|*.m3u8", Title = "Save Playlist"})
                 {
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
