@@ -105,11 +105,7 @@
             // numDuration
             // 
             this.numDuration.Location = new System.Drawing.Point(68, 38);
-            this.numDuration.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
+            this.numDuration.Maximum = new decimal(3600);
             this.numDuration.Name = "numDuration";
             this.numDuration.Size = new System.Drawing.Size(67, 20);
             this.numDuration.TabIndex = 12;

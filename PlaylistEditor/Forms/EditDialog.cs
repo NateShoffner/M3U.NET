@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Windows.Forms;
@@ -18,7 +18,7 @@ namespace PlaylistEditor.Forms
             _entry = entry;
 
             txtTitle.Text = entry.Title;
-            numDuration.Value = (decimal) entry.Duration.TotalSeconds;
+            numDuration.Value = (decimal)(entry.Duration.TotalSeconds < 0 ? 0 : entry.Duration.TotalSeconds);
             txtPath.Text = entry.Path.IsFile ? entry.Path.LocalPath : entry.Path.ToString();
         }
 

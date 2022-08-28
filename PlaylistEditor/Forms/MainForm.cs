@@ -1,8 +1,9 @@
-﻿#region
+#region
 
 using System;
 using System.Windows.Forms;
 using M3U.NET;
+using System.IO;
 
 #endregion
 
@@ -19,7 +20,7 @@ namespace PlaylistEditor.Forms
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            using (var ofd = new OpenFileDialog {Filter = "M3U File (*.m3u)|*.m3u", Title = "Open Playlist"})
+            using (var ofd = new OpenFileDialog {Filter = "(*.m3u,*.m3u8)|*.m3u;*.m3u8", Title = "Open Playlist"})
             {
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
@@ -96,7 +97,7 @@ namespace PlaylistEditor.Forms
         {
             if (_m3uFile != null)
             {
-                using (var sfd = new SaveFileDialog() {Filter = "M3U File (*.m3u)|*.m3u", Title = "Save Playlist"})
+                using (var sfd = new SaveFileDialog() {Filter = "M3U File (*.m3u)|*.m3u|M3U8 File (*.m3u8)|*.m3u8", Title = "Save Playlist"})
                 {
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
@@ -104,6 +105,49 @@ namespace PlaylistEditor.Forms
                     }
                 }
             }
+        }
+
+        private void btnListToFiles_Click(object sender, EventArgs e)
+        {
+            if (_m3uFile != null)
+            {
+                FolderBrowserDialog dialog = new FolderBrowserDialog();
+                if (dialog.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+                _m3uFile.SaveToFiles(dialog.SelectedPath);
+            }
+        }
+
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            System.Array pathList = ((System.Array)e.Data.GetData(DataFormats.FileDrop));
+            int fileCount = pathList.GetLength(0);
+            if (fileCount > 1)
+            {
+                MessageBox.Show("Dragdrop too many files", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            string FilePath = pathList.GetValue(0).ToString();
+            if (!File.Exists(FilePath))//Path is a directory
+                return;
+            _m3uFile = null;
+            try
+            {
+                _m3uFile = new M3UFile();
+                _m3uFile.Load(FilePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            PopulateEntries();
+        }
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetData(DataFormats.FileDrop) != null)
+                e.Effect = DragDropEffects.Copy;
         }
     }
 }

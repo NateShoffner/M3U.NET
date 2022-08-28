@@ -1,4 +1,4 @@
-﻿namespace PlaylistEditor.Forms
+namespace PlaylistEditor.Forms
 {
     partial class MainForm
     {
@@ -34,11 +34,12 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnSave = new System.Windows.Forms.Button();
+            this.btnListToFiles = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(12, 12);
+            this.btnBrowse.Location = new System.Drawing.Point(10, 10);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnBrowse.TabIndex = 0;
@@ -82,7 +83,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(370, 231);
+            this.btnSave.Location = new System.Drawing.Point(110, 10);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 3;
@@ -90,17 +91,31 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // btnListToFiles
+            // 
+            this.btnListToFiles.Location = new System.Drawing.Point(210, 10);
+            this.btnListToFiles.Name = "btnListToFiles";
+            this.btnListToFiles.Size = new System.Drawing.Size(80, 23);
+            this.btnListToFiles.TabIndex = 3;
+            this.btnListToFiles.Text = "ListToFiles";
+            this.btnListToFiles.UseVisualStyleBackColor = true;
+            this.btnListToFiles.Click += new System.EventHandler(this.btnListToFiles_Click);
+            // 
             // MainForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(457, 266);
             this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnListToFiles);
             this.Controls.Add(this.listEntries);
             this.Controls.Add(this.btnBrowse);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Playlist Editor";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             this.ResumeLayout(false);
 
         }
@@ -113,6 +128,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnListToFiles;
     }
 }
 
