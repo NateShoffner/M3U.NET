@@ -107,6 +107,19 @@ namespace PlaylistEditor.Forms
             }
         }
 
+        private void btnListToFiles_Click(object sender, EventArgs e)
+        {
+            if (_m3uFile != null)
+            {
+                FolderBrowserDialog dialog = new FolderBrowserDialog();
+                if (dialog.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+                _m3uFile.SaveToFiles(dialog.SelectedPath);
+            }
+        }
+
         private void MainForm_DragDrop(object sender, DragEventArgs e)
         {
             System.Array pathList = ((System.Array)e.Data.GetData(DataFormats.FileDrop));

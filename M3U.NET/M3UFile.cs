@@ -50,7 +50,7 @@ namespace M3U.NET
                         int seconds;
                         if (!int.TryParse(split[0], out seconds))
                             throw new M3UException("Invalid track duration.");
-
+                           
                         var title = split[1];
 
                         var duration = TimeSpan.FromSeconds(seconds);
@@ -98,6 +98,63 @@ namespace M3U.NET
                     else
                         writer.WriteLine(entry.Path);
                 }
+            }
+        }
+
+        private bool FixFileName(ref string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return true;
+            }
+            string[] problemChar = new string[] { "【", "】"};
+            string[] fixChar = new string[] { "[", "]"};
+            string[] errChar = new string[] { "/", "\\", ":", ",", "*", "?", "\"", "<", ">", "|" };
+
+            for (int i = 0; i < errChar.Length; i++)
+            {
+                fileName = fileName.Replace(errChar[i], "");
+            }
+            for (int i = 0; i < fixChar.Length; i++)
+            {
+                fileName = fileName.Replace(problemChar[i], fixChar[i]);
+            }
+            return false;
+        } 
+
+        public void SaveToFiles(string floder, bool useAbsolutePaths = false, bool useLocalFilePath = true)
+        {
+            var workingUri = new Uri(Path.GetDirectoryName(floder));
+
+            foreach (var entry in this)
+            {
+                string fileName = entry.Title;
+                if(FixFileName(ref fileName))
+                {
+                    continue;
+                }
+                if (fileName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+                {
+                    continue;
+                }
+                string filePath = Path.Combine(floder, entry.Title + ".m3u8");
+                if(File.Exists(filePath))
+                {
+                    continue;
+                }
+                using (var writer = new StreamWriter(filePath))
+                {
+                    writer.WriteLine("#EXTM3U");
+                    writer.WriteLine("#EXTINF:{0},{1}", entry.Duration.TotalSeconds, entry.Title);
+
+                    if (entry.Path.IsFile && useLocalFilePath)
+                        writer.WriteLine(entry.Path.LocalPath);
+                    else if (!entry.Path.IsAbsoluteUri && useAbsolutePaths)
+                        writer.WriteLine(entry.Path.MakeAbsoluteUri(workingUri));
+                    else
+                        writer.WriteLine(entry.Path);
+                }
+
             }
         }
 
